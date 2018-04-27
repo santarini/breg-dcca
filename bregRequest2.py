@@ -5,6 +5,8 @@ import requests
 import bs4 as bs
 import csv
 import re
+import time
+start_time = time.time()
 
 #create a CSV
 with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
@@ -63,3 +65,6 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
 
                     #parse to csv
                     writer.writerow({'Company Name': companyName.strip(),'Record Type': recordType.strip(),'File Number': fileNumber.strip(), 'Status': status.strip()})
+                n+=1
+elapsed_time = time.time() - start_time
+print(elapsed_time)
