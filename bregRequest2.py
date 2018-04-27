@@ -7,9 +7,10 @@ import csv
 import re
 
 #create a CSV
-with open('dateRank.csv', 'a') as csvfileA:
-    fieldnames = ['Year','IssueDate','Rank', 'Artist', 'Song']
+with open('bregDatabase.csv', 'a') as csvfileA:
+    fieldnames = ['Company Name','Record Type','File Number', 'Status']
     writer = csv.DictWriter(csvfileB, fieldnames=fieldnames, lineterminator = '\n')
+    writer.writeheader()
 
     #generate a search term
     n=1
@@ -54,3 +55,4 @@ with open('dateRank.csv', 'a') as csvfileA:
                     status = row.findAll('td')[3]
 
                     #parse to csv
+                    writer.writerow({'Company Name': companyName,'Record Type': recordType,'File Number': fileNumber, 'Status': status})
