@@ -48,6 +48,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
 
                 #list number of page results
                 resultNumber = soup.find('strong').text
+                print(searchTerm + ": returned " + resultNumber + " results")
                 
 
                 #get what we came here for
@@ -59,4 +60,4 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                     status = row.findAll('td')[3]
 
                     #parse to csv
-                    writer.writerow({'Company Name': companyName,'Record Type': recordType,'File Number': fileNumber, 'Status': status})
+                    writer.writerow({'Company Name': companyName.text,'Record Type': recordType.text,'File Number': fileNumber.text, 'Status': status.text})
