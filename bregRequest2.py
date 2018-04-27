@@ -47,6 +47,10 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                     print(searchTerm + ": returned more than 300 results)
                     pass
 
+                #list number of page results
+                
+
+                #get what we came here for
                 listingTable = soup.find("div", {"id": "table1"})
                 for row in listingTable.findAll("tr")[1:]:
                     companyName = row.findAll('td')[0]
