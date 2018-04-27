@@ -6,7 +6,7 @@ import bs4 as bs
 import csv
 import re
 
-response = requests.get('https://hbe.ehawaii.gov/documents/search.html?recordType=ALL&status=ALL&beginsWith=true&query=the')
+response = requests.get('https://hbe.ehawaii.gov/documents/search.html?beginsWith=true&query='+ searchTerm +'&page=0')
 soup = bs.BeautifulSoup(response.text, 'lxml')
 
 #check if search term has values
@@ -27,6 +27,6 @@ try:
         instanacesOfChar = instanacesOfChar.replace(",", "")
         print(instanacesOfChar)
 except:
-    #pull data
-    
-
+    parentTable = soup.findAll("table")[1]
+    mainTable = parentTable.findAll("td")[1]
+    listingTable = mainTable.findAll("span", {"id": "table1"})
