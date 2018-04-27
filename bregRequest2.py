@@ -9,7 +9,7 @@ import re
 #create a CSV
 with open('bregDatabase.csv', 'a') as csvfileA:
     fieldnames = ['Company Name','Record Type','File Number', 'Status']
-    writer = csv.DictWriter(csvfileB, fieldnames=fieldnames, lineterminator = '\n')
+    writer = csv.DictWriter(csvfileA, fieldnames=fieldnames, lineterminator = '\n')
     writer.writeheader()
 
     #generate a search term
@@ -17,7 +17,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
     for i in range (65,90):
         for j in range (65,90):
             for k in range (65,90):
-                searchTerm = str(n) + ': ' + chr(i) + chr(j) + chr(k)
+                searchTerm = chr(i) + chr(j) + chr(k)
                 print("Starting: " + searchTerm)
 
                 #make a request using search term
@@ -29,7 +29,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                 try:
                     noneText = re.search('There are no businesses for this search term.', soup.text)
                     if noneText.group(0) is not None:
-                        print(searchTerm + ": returned no results)
+                        print(searchTerm + ": returned no results")
                         continue
                 except:
                     pass
@@ -53,11 +53,13 @@ with open('bregDatabase.csv', 'a') as csvfileA:
 
                 #get what we came here for
                 listingTable = soup.find("div", {"id": "table1"})
-                for row in listingTable.findAll("tr")[1:]:
-                    companyName = row.findAll('td')[0]
-                    recordType = row.findAll('td')[1]
-                    fileNumber = row.findAll('td')[2]
-                    status = row.findAll('td')[3]
+                mainTable = listingTable.findAll("table")[0]
+                for row in mainTable.findAll("tr")[1:]:
+                    companyName = row.findAll('td')[0].text
+                    recordType = row.findAll('td')[1].text
+                    fileNumber = row.findAll('td')[2].text
+                    status = row.findAll('td')[3].text
+
 
                     #parse to csv
-                    writer.writerow({'Company Name': companyName.text,'Record Type': recordType.text,'File Number': fileNumber.text, 'Status': status.text})
+                    writer.writerow({'Company Name': companyName.rstrip(),'Record Type': recordType.rstrip(),'File Number': fileNumber.rstrip(), 'Status': status.rstrip()})
