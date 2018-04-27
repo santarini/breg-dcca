@@ -7,7 +7,7 @@ import csv
 import re
 
 #create a CSV
-with open('bregDatabase.csv', 'a') as csvfileA:
+with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
     fieldnames = ['Company Name','Record Type','File Number', 'Status']
     writer = csv.DictWriter(csvfileA, fieldnames=fieldnames, lineterminator = '\n')
     writer.writeheader()
@@ -18,7 +18,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
         for j in range (65,90):
             for k in range (65,90):
                 searchTerm = chr(i) + chr(j) + chr(k)
-                print("Starting: #"+ n +" -> " + searchTerm)
+                print("Starting: #"+ str(n) +" -> " + searchTerm)
 
                 #make a request using search term
                 
@@ -62,4 +62,4 @@ with open('bregDatabase.csv', 'a') as csvfileA:
 
 
                     #parse to csv
-                    writer.writerow({'Company Name': companyName.rstrip(),'Record Type': recordType.rstrip(),'File Number': fileNumber.rstrip(), 'Status': status.rstrip()})
+                    writer.writerow({'Company Name': companyName.strip(),'Record Type': recordType.strip(),'File Number': fileNumber.strip(), 'Status': status.strip()})
