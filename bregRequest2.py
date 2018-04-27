@@ -18,7 +18,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
         for j in range (65,90):
             for k in range (65,90):
                 searchTerm = chr(i) + chr(j) + chr(k)
-                print("Starting: " + searchTerm)
+                print("Starting: #"+ n +" -> " + searchTerm)
 
                 #make a request using search term
                 
