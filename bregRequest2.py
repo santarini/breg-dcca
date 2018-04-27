@@ -14,7 +14,7 @@ try:
     noneText = re.search('There are no businesses for this search term.', soup.text)
     if noneText.group(0) is not None:
         #label as being none
-        #break
+        continue
 except:
 
 #check if more than 300 results for search term
