@@ -6,6 +6,8 @@ import bs4 as bs
 import csv
 import re
 
+searchTerm = 'aaa'
+
 response = requests.get('https://hbe.ehawaii.gov/documents/search.html?beginsWith=true&query='+ searchTerm +'&page=0')
 soup = bs.BeautifulSoup(response.text, 'lxml')
 
@@ -13,9 +15,11 @@ soup = bs.BeautifulSoup(response.text, 'lxml')
 try:
     noneText = re.search('There are no businesses for this search term.', soup.text)
     if noneText.group(0) is not None:
+        pass
         #label as being none
-        continue
+        #continue
 except:
+    pass
 
 #check if more than 300 results for search term
 try:
@@ -27,6 +31,12 @@ try:
         instanacesOfChar = instanacesOfChar.replace(",", "")
         print(instanacesOfChar)
 except:
-    parentTable = soup.findAll("table")[1]
-    mainTable = parentTable.findAll("td")[1]
-    listingTable = mainTable.findAll("span", {"id": "table1"})
+    pass
+    #label as max greater than 300
+    
+listingTable = soup.find("div", {"id": "table1"})
+for row in listingTable.findAll("tr")[1:]:
+    companyName = row.findAll('td')[0]
+    recordType = row.findAll('td')[1]
+    fileNumber = row.findAll('td')[2]
+    status = row.findAll('td')[3]
