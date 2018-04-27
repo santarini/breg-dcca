@@ -6,8 +6,11 @@ import bs4 as bs
 import csv
 import re
 import time
-start_time = time.time()
 
+noResults = []
+maxResult = []
+
+start_time = time.time()
 #create a CSV
 with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
     fieldnames = ['Company Name','Record Type','File Number', 'Status']
@@ -32,6 +35,7 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                     noneText = re.search('There are no businesses for this search term.', soup.text)
                     if noneText.group(0) is not None:
                         print(searchTerm + ": returned no results")
+                        noResults.append(searchTerm)
                         continue
                 except:
                     pass
@@ -45,6 +49,7 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                         instanacesOfChar = instanacesOfCharRegex.findall(span)[1]
                         instanacesOfChar = instanacesOfChar.replace(",", "")
                         print(searchTerm + ": returned " + instanacesOfChar + " reuslts")
+                        maxResult.append(searchTerm)
                 except:
                     pass
 
