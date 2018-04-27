@@ -42,9 +42,8 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                         instanacesOfCharRegex = re.compile(r'\d{3}')
                         instanacesOfChar = instanacesOfCharRegex.findall(span)[1]
                         instanacesOfChar = instanacesOfChar.replace(",", "")
-                        print(instanacesOfChar)
+                        print(searchTerm + ": returned " + instanacesOfChar + " reuslts")
                 except:
-                    print(searchTerm + ": returned more than 300 results)
                     pass
 
                 #list number of page results
