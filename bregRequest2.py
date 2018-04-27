@@ -6,37 +6,51 @@ import bs4 as bs
 import csv
 import re
 
-searchTerm = 'aaa'
+#create a CSV
+with open('dateRank.csv', 'a') as csvfileA:
+    fieldnames = ['Year','IssueDate','Rank', 'Artist', 'Song']
+    writer = csv.DictWriter(csvfileB, fieldnames=fieldnames, lineterminator = '\n')
 
-response = requests.get('https://hbe.ehawaii.gov/documents/search.html?beginsWith=true&query='+ searchTerm +'&page=0')
-soup = bs.BeautifulSoup(response.text, 'lxml')
+    #generate a search term
+    n=1
+    for i in range (65,90):
+        for j in range (65,90):
+            for k in range (65,90):
+                searchTerm = str(n) + ': ' + chr(i) + chr(j) + chr(k)
 
-#check if search term has values
-try:
-    noneText = re.search('There are no businesses for this search term.', soup.text)
-    if noneText.group(0) is not None:
-        pass
-        #label as being none
-        #continue
-except:
-    pass
+                #make a request using search term
+                
+                response = requests.get('https://hbe.ehawaii.gov/documents/search.html?beginsWith=true&query='+ searchTerm +'&page=0')
+                soup = bs.BeautifulSoup(response.text, 'lxml')
 
-#check if more than 300 results for search term
-try:
-    maxText = re.search('Displaying only the first', soup.text)
-    if maxText.group(0) is not None:
-        span = soup.find("span", {"class": "red"}).text
-        instanacesOfCharRegex = re.compile(r'\d{3}')
-        instanacesOfChar = instanacesOfCharRegex.findall(span)[1]
-        instanacesOfChar = instanacesOfChar.replace(",", "")
-        print(instanacesOfChar)
-except:
-    pass
-    #label as max greater than 300
-    
-listingTable = soup.find("div", {"id": "table1"})
-for row in listingTable.findAll("tr")[1:]:
-    companyName = row.findAll('td')[0]
-    recordType = row.findAll('td')[1]
-    fileNumber = row.findAll('td')[2]
-    status = row.findAll('td')[3]
+                #check if search term has values
+                try:
+                    noneText = re.search('There are no businesses for this search term.', soup.text)
+                    if noneText.group(0) is not None:
+                        pass
+                        #label as being none
+                        #continue
+                except:
+                    pass
+
+                #check if more than 300 results for search term
+                try:
+                    maxText = re.search('Displaying only the first', soup.text)
+                    if maxText.group(0) is not None:
+                        span = soup.find("span", {"class": "red"}).text
+                        instanacesOfCharRegex = re.compile(r'\d{3}')
+                        instanacesOfChar = instanacesOfCharRegex.findall(span)[1]
+                        instanacesOfChar = instanacesOfChar.replace(",", "")
+                        print(instanacesOfChar)
+                except:
+                    pass
+                    #label as max greater than 300
+                    
+                listingTable = soup.find("div", {"id": "table1"})
+                for row in listingTable.findAll("tr")[1:]:
+                    companyName = row.findAll('td')[0]
+                    recordType = row.findAll('td')[1]
+                    fileNumber = row.findAll('td')[2]
+                    status = row.findAll('td')[3]
+
+                    #parse to csv
