@@ -18,6 +18,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
         for j in range (65,90):
             for k in range (65,90):
                 searchTerm = str(n) + ': ' + chr(i) + chr(j) + chr(k)
+                print("Starting: " + searchTerm)
 
                 #make a request using search term
                 
@@ -28,9 +29,8 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                 try:
                     noneText = re.search('There are no businesses for this search term.', soup.text)
                     if noneText.group(0) is not None:
-                        pass
-                        #label as being none
-                        #continue
+                        print(searchTerm + ": returned no results)
+                        continue
                 except:
                     pass
 
@@ -44,9 +44,9 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                         instanacesOfChar = instanacesOfChar.replace(",", "")
                         print(instanacesOfChar)
                 except:
+                    print(searchTerm + ": returned more than 300 results)
                     pass
-                    #label as max greater than 300
-                    
+
                 listingTable = soup.find("div", {"id": "table1"})
                 for row in listingTable.findAll("tr")[1:]:
                     companyName = row.findAll('td')[0]
