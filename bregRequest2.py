@@ -47,6 +47,7 @@ with open('bregDatabase.csv', 'a') as csvfileA:
                     pass
 
                 #list number of page results
+                resultNumber = soup.find('strong').text
                 
 
                 #get what we came here for
