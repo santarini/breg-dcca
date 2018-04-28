@@ -60,7 +60,7 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                 print(searchTerm + ": returned " + resultNumber + " results")
                 totalResults[searchTerm] = resultNumber
                 
-                #get what we came here for
+                #lighting, this is what you came for
                 listingTable = soup.find("div", {"id": "table1"})
                 mainTable = listingTable.findAll("table")[0]
                 for row in mainTable.findAll("tr")[1:]:
@@ -68,7 +68,6 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                     recordType = row.findAll('td')[1].text
                     fileNumber = row.findAll('td')[2].text
                     status = row.findAll('td')[3].text
-
 
                     #parse to csv
                     writer.writerow({'Company Name': companyName.strip(),'Record Type': recordType.strip(),'File Number': fileNumber.strip(), 'Status': status.strip()})
