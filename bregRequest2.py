@@ -9,6 +9,7 @@ import time
 
 noResult = []
 maxResult = []
+totalResults = {}
 
 start_time = time.time()
 #create a CSV
@@ -36,6 +37,7 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                     if noneText.group(0) is not None:
                         print(searchTerm + ": returned no results")
                         noResult.append(searchTerm)
+                        totalResults[searchTerm] = 0
                         continue
                 except:
                     pass
@@ -49,15 +51,15 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                         instanacesOfChar = instanacesOfCharRegex.findall(span)[1]
                         instanacesOfChar = instanacesOfChar.replace(",", "")
                         print(searchTerm + ": returned " + instanacesOfChar + " reuslts")
-                        maxResult.append(searchTerm)
+                        maxResult.append(searchTerm + ": " + instanacesOfChar)
                 except:
                     pass
 
                 #list number of page results
                 resultNumber = soup.find('strong').text
                 print(searchTerm + ": returned " + resultNumber + " results")
+                totalResults[searchTerm] = resultNumber
                 
-
                 #get what we came here for
                 listingTable = soup.find("div", {"id": "table1"})
                 mainTable = listingTable.findAll("table")[0]
