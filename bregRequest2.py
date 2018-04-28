@@ -7,7 +7,7 @@ import csv
 import re
 import time
 
-noResults = []
+noResult = []
 maxResult = []
 
 start_time = time.time()
@@ -35,7 +35,7 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                     noneText = re.search('There are no businesses for this search term.', soup.text)
                     if noneText.group(0) is not None:
                         print(searchTerm + ": returned no results")
-                        noResults.append(searchTerm)
+                        noResult.append(searchTerm)
                         continue
                 except:
                     pass
@@ -45,7 +45,7 @@ with open('bregDatabase.csv', 'a', encoding="utf-8") as csvfileA:
                     maxText = re.search('Displaying only the first', soup.text)
                     if maxText.group(0) is not None:
                         span = soup.find("span", {"class": "red"}).text
-                        instanacesOfCharRegex = re.compile(r'\d{3}')
+                        instanacesOfCharRegex = re.compile(r'\d{1,3}|\d{1,3}\,\d{1,3}')
                         instanacesOfChar = instanacesOfCharRegex.findall(span)[1]
                         instanacesOfChar = instanacesOfChar.replace(",", "")
                         print(searchTerm + ": returned " + instanacesOfChar + " reuslts")
